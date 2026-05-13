@@ -16,6 +16,7 @@
         <selenium.version>4.23.1</selenium.version>
         <webdrivermanager.version>5.9.2</webdrivermanager.version>
         <allure.version>2.29.1</allure.version>
+        <gson.version>2.11.0</gson.version>
         <aspectj.version>1.9.22.1</aspectj.version>
         <surefire.version>3.2.5</surefire.version>
         <allure.maven.version>2.15.2</allure.maven.version>
@@ -44,6 +45,12 @@
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit4</artifactId>
             <version>${allure.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -81,7 +88,7 @@
                 <version>${allure.maven.version}</version>
                 <configuration>
                     <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
-                    <reportDirectory>${project.build.directory}/site/allure-maven-plugin</reportDirectory>
+                    <reportDirectory>${project.basedir}/allure-report</reportDirectory>
                 </configuration>
             </plugin>
         </plugins>

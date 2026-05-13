@@ -1,5 +1,6 @@
 package stellarburgers;
 
+import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -25,6 +26,7 @@ public class RegistrationTest extends BaseTest {
 
     @Test
     @DisplayName("Успешная регистрация пользователя")
+    @Description("Проверка успешной регистрации нового пользователя с валидными именем, email и паролем.")
     public void shouldRegisterUserSuccessfully() {
         createdUser = TestUserFactory.randomUser();
 
@@ -38,6 +40,7 @@ public class RegistrationTest extends BaseTest {
 
     @Test
     @DisplayName("Ошибка при регистрации с паролем короче 6 символов")
+    @Description("Проверка появления ошибки при попытке регистрации с паролем короче шести символов.")
     public void shouldShowErrorForShortPassword() {
         UserCredentials user = TestUserFactory.randomUser();
         RegisterPage registerPage = new RegisterPage(driver, BASE_URL).open();

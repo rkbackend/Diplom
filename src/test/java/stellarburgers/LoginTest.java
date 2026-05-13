@@ -1,5 +1,6 @@
 package stellarburgers;
 
+import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -35,6 +36,7 @@ public class LoginTest extends BaseTest {
 
     @Test
     @DisplayName("Вход по кнопке 'Войти в аккаунт' на главной странице")
+    @Description("Проверка успешного входа пользователя через кнопку 'Войти в аккаунт' на главной странице.")
     public void shouldLoginFromMainLoginButton() {
         MainPage mainPage = new MainPage(driver, BASE_URL).open();
         mainPage.clickLoginButton();
@@ -47,6 +49,7 @@ public class LoginTest extends BaseTest {
 
     @Test
     @DisplayName("Вход через кнопку 'Личный Кабинет'")
+    @Description("Проверка успешного входа пользователя через кнопку 'Личный Кабинет' в шапке сайта.")
     public void shouldLoginFromPersonalAccountButton() {
         MainPage mainPage = new MainPage(driver, BASE_URL).open();
         mainPage.clickPersonalAccount();
@@ -59,6 +62,7 @@ public class LoginTest extends BaseTest {
 
     @Test
     @DisplayName("Вход через кнопку в форме регистрации")
+    @Description("Проверка успешного входа пользователя после перехода из формы регистрации.")
     public void shouldLoginFromRegistrationForm() {
         new RegisterPage(driver, BASE_URL).open()
                 .clickLoginLink();
@@ -71,6 +75,7 @@ public class LoginTest extends BaseTest {
 
     @Test
     @DisplayName("Вход через кнопку в форме восстановления пароля")
+    @Description("Проверка успешного входа пользователя после перехода из формы восстановления пароля.")
     public void shouldLoginFromForgotPasswordForm() {
         new ForgotPasswordPage(driver, BASE_URL).open()
                 .clickLoginLink();

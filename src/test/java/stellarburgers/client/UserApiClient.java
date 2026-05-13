@@ -1,5 +1,6 @@
 package stellarburgers.client;
 
+import com.google.gson.Gson;
 import stellarburgers.model.UserCredentials;
 
 import java.io.IOException;
@@ -10,25 +11,25 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class UserApiClient {
     private static final String API_URL = "https://stellarburgers.education-services.ru/api";
-    private static final Pattern ACCESS_TOKEN_PATTERN = Pattern.compile("\"accessToken\"\\s*:\\s*\"([^\"]+)\"");
+    private final Gson gson = new Gson();
     private final HttpClient client = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(10))
             .build();
 
     public void createUser(UserCredentials user) {
-        sendJson("/auth/register", "POST", userJson(user), null);
+        sendJson("/auth/register", "POST", gson.toJson(user), null);
     }
 
     public Optional<String> login(UserCredentials user) {
         HttpResponse<String> response = sendJson("/auth/login", "POST",
-                "{\"email\":\"" + escape(user.getEmail()) + "\",\"password\":\"" + escape(user.getPassword()) + "\"}",
+                gson.toJson(new LoginRequest(user.getEmail(), user.getPassword())),
                 null);
-        return extractAccessToken(response.body());
+        LoginResponse loginResponse = gson.fromJson(response.body(), LoginResponse.class);
+        return Optional.ofNullable(loginResponse)
+                .map(LoginResponse::getAccessToken);
     }
 
     public void deleteUser(UserCredentials user) {
@@ -60,18 +61,21 @@ public class UserApiClient {
         }
     }
 
-    private Optional<String> extractAccessToken(String body) {
-        Matcher matcher = ACCESS_TOKEN_PATTERN.matcher(body);
-        return matcher.find() ? Optional.of(matcher.group(1)) : Optional.empty();
+    private static class LoginRequest {
+        private final String email;
+        private final String password;
+
+        private LoginRequest(String email, String password) {
+            this.email = email;
+            this.password = password;
+        }
     }
 
-    private String userJson(UserCredentials user) {
-        return "{\"email\":\"" + escape(user.getEmail()) + "\","
-                + "\"password\":\"" + escape(user.getPassword()) + "\","
-                + "\"name\":\"" + escape(user.getName()) + "\"}";
-    }
+    private static class LoginResponse {
+        private String accessToken;
 
-    private String escape(String value) {
-        return value.replace("\\", "\\\\").replace("\"", "\\\"");
+        private String getAccessToken() {
+            return accessToken;
+        }
     }
 }
