@@ -11,6 +11,7 @@ import stellarburgers.model.UserCreateRequest;
 import java.util.Arrays;
 import java.util.Collection;
 
+import static org.apache.http.HttpStatus.SC_FORBIDDEN;
 import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(Parameterized.class)
@@ -41,7 +42,7 @@ public class CreateUserRequiredFieldsTest extends BaseTest {
     public void createUserWithoutRequiredFieldShouldReturnError() {
         userClient.create(incompleteUser)
                 .then()
-                .statusCode(403)
+                .statusCode(SC_FORBIDDEN)
                 .body("success", equalTo(false))
                 .body("message", equalTo(REQUIRED_FIELDS_MESSAGE));
     }

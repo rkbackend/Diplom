@@ -16,6 +16,8 @@
         <rest-assured.version>5.5.7</rest-assured.version>
         <allure.version>2.34.0</allure.version>
         <jackson.version>2.17.2</jackson.version>
+        <lombok.version>1.18.34</lombok.version>
+        <httpcore.version>4.4.16</httpcore.version>
         <aspectj.version>1.9.22.1</aspectj.version>
         <surefire.version>3.2.5</surefire.version>
         <allure.maven.version>2.15.2</allure.maven.version>
@@ -35,6 +37,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>${httpcore.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit4</artifactId>
             <version>${allure.version}</version>
@@ -44,6 +52,12 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -81,7 +95,7 @@
                 <version>${allure.maven.version}</version>
                 <configuration>
                     <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
-                    <reportDirectory>${project.build.directory}/site/allure-maven-plugin</reportDirectory>
+                    <reportDirectory>${project.basedir}/allure-report</reportDirectory>
                 </configuration>
             </plugin>
         </plugins>

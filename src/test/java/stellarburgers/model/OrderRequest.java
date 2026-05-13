@@ -1,16 +1,13 @@
 package stellarburgers.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.util.List;
 
+@Data
+@AllArgsConstructor
 public class OrderRequest {
 
     private final List<String> ingredients;
-
-    public OrderRequest(List<String> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public List<String> getIngredients() {
-        return ingredients;
-    }
 }

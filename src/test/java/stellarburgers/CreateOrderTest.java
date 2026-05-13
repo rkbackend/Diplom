@@ -10,6 +10,9 @@ import stellarburgers.model.UserCreateRequest;
 
 import java.util.Collections;
 
+import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
+import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
@@ -29,7 +32,7 @@ public class CreateOrderTest extends BaseTest {
 
         orderClient.create(order, accessToken)
                 .then()
-                .statusCode(200)
+                .statusCode(SC_OK)
                 .body("success", equalTo(true))
                 .body("order.number", notNullValue());
     }
@@ -42,7 +45,7 @@ public class CreateOrderTest extends BaseTest {
 
         orderClient.create(order)
                 .then()
-                .statusCode(200)
+                .statusCode(SC_OK)
                 .body("success", equalTo(true))
                 .body("order.number", notNullValue());
     }
@@ -53,7 +56,7 @@ public class CreateOrderTest extends BaseTest {
     public void createOrderWithoutIngredientsShouldReturnError() {
         orderClient.create(new OrderRequest(Collections.emptyList()))
                 .then()
-                .statusCode(400)
+                .statusCode(SC_BAD_REQUEST)
                 .body("success", equalTo(false))
                 .body("message", equalTo("Ingredient ids must be provided"));
     }
@@ -64,7 +67,7 @@ public class CreateOrderTest extends BaseTest {
     public void createOrderWithInvalidIngredientHashShouldReturnServerError() {
         orderClient.create(new OrderRequest(Collections.singletonList("bad_hash")))
                 .then()
-                .statusCode(500)
+                .statusCode(SC_INTERNAL_SERVER_ERROR)
                 .body(containsString("Internal Server Error"));
     }
 

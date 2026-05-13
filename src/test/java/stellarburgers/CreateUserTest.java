@@ -6,6 +6,8 @@ import org.junit.Test;
 import stellarburgers.client.UserClient;
 import stellarburgers.model.UserCreateRequest;
 
+import static org.apache.http.HttpStatus.SC_FORBIDDEN;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
@@ -21,7 +23,7 @@ public class CreateUserTest extends BaseTest {
 
         String accessToken = userClient.create(user)
                 .then()
-                .statusCode(200)
+                .statusCode(SC_OK)
                 .body("success", equalTo(true))
                 .body("accessToken", notNullValue())
                 .body("refreshToken", notNullValue())
@@ -42,7 +44,7 @@ public class CreateUserTest extends BaseTest {
 
         userClient.create(user)
                 .then()
-                .statusCode(403)
+                .statusCode(SC_FORBIDDEN)
                 .body("success", equalTo(false))
                 .body("message", equalTo("User already exists"));
     }

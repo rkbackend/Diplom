@@ -4,6 +4,7 @@ import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
+import static org.apache.http.HttpStatus.SC_OK;
 
 public class IngredientClient {
 
@@ -20,7 +21,7 @@ public class IngredientClient {
     public String getFirstIngredientId() {
         return getIngredients()
                 .then()
-                .statusCode(200)
+                .statusCode(SC_OK)
                 .extract()
                 .path("data[0]._id");
     }
