@@ -1,6 +1,6 @@
 target/
-allure-results/
 .idea/
 *.iml
 .codex
 .allure/
+.vscode
